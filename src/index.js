@@ -79,6 +79,13 @@ class RomanNumerals {
 		});
 		return numeral;
 	}
+	toTwoChars (numeral) {
+		// change two character symbols for one lower letter
+		Object.keys(twoSimbols).forEach((symbol) => {
+			numeral = numeral.replace(twoSimbols[symbol], symbol);
+		});
+		return numeral;
+	}
 	isValidRoman (numeral) {
 		let isValid = true;
 		// Only valid symbols
@@ -106,6 +113,9 @@ class RomanNumerals {
 		return isValid;
 	}
 	toInt () {
+		if (Number.isInteger(this.input)) {
+			return this.input;
+		}
 		console.log('toInt',this.input);
 		const oneChar = this.toOneChar(this.input);
 		let result = 0;
@@ -114,6 +124,21 @@ class RomanNumerals {
 			result += symbolValues[symbol];
 		});
 		return result;
+	}
+	toString () {
+		if (typeof this.input === 'string' || this.input instanceof String) {
+			return this.input;
+		}
+		let result = '';
+		let remaining = this.input;
+		romanSymbols.forEach(symbol => {
+			const amount = Math.floor(remaining / symbolValues[symbol]);
+			result += Array(amount+1).join(symbol);
+			console.log(symbol, amount,remaining);
+			remaining -= symbolValues[symbol] * amount;
+		});
+		console.log('toTwoChars',result,this.toTwoChars(result));
+		return this.toTwoChars(result);
 	}
 }
 const romanNumeral = (numeral) => {
