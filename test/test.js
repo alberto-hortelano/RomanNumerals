@@ -8,11 +8,14 @@ switch (process.env.NODE_ENV) {
 	default:
 		folder = 'src';
 }
-console.log(process.env.NODE_ENV,folder);
-const hi = require(`../${folder}/index`);
-describe('Test',() => {
-	it('does some test', (done) => {
-		expect(hi()).to.equal('hi');
+const {RomanNumerals, romanNumerals} = require(`../${folder}/index`);
+
+describe('RomanNumerals',() => {
+	it('returns an object if called as function or as class', (done) => {
+		const asFunction = romanNumerals();
+		expect(asFunction).to.be.an.instanceof(RomanNumerals);
+		const asClass = new romanNumerals();
+		expect(asClass).to.be.an.instanceof(RomanNumerals);
 		done();
 	});
 });
