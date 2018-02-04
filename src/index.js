@@ -1,9 +1,18 @@
 'use strict';
 
 const romanSimbols = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
+const twoSimbols = {
+	'CM': 'm',
+	'CD': 'd',
+	'XC': 'c',
+	'XL': 'l',
+	'IX': 'x',
+	'IV': 'v'
+};
 
 class RomanNumerals {
 	constructor (numeral) {
+		console.log('constructor');
 		// Sanitize input
 		this.sanitize (numeral);
 	}
@@ -20,7 +29,7 @@ class RomanNumerals {
 			throw new Error('invalid range');
 		// Invalid value
 		} else if (
-			!Number.isInteger(numeral) ||
+			!Number.isInteger(numeral) &&
 			(
 				(typeof numeral === 'string' || numeral instanceof String) &&
 				this.isValidRoman(numeral)
@@ -33,6 +42,16 @@ class RomanNumerals {
 
 	}
 	isValidRoman (numeral) {
+		console.log('isValidRoman',numeral);
+		const symbolCounter = romanSimbols.reduce((symbolCounter, symbol) => {
+			symbolCounter[symbol] = 0;
+			return symbolCounter;
+		}, {});
+		console.log(symbolCounter);
+		const nextLetters = romanSimbols;
+		numeral.split('').map((letter) => {
+			console.log(letter);
+		});
 		return true;
 	}
 }
