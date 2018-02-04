@@ -1,6 +1,21 @@
 'use strict';
 
-const romanSimbols = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
+const romanSymbols = ['M', 'm', 'D', 'd', 'C', 'c', 'L', 'l', 'X', 'x', 'V', 'v', 'I'];
+const maxRepeat = {
+	M: 3,
+  m: 1,
+  D: 3,
+  d: 1,
+  C: 3,
+  c: 1,
+  L: 3,
+  l: 1,
+  X: 3,
+  x: 1,
+  V: 3,
+  v: 1,
+  I: 3
+}
 const twoSimbols = {
 	'CM': 'm',
 	'CD': 'd',
@@ -42,18 +57,24 @@ class RomanNumerals {
 
 	}
 	isValidRoman (numeral) {
-		console.log('isValidRoman',numeral);
+		const errorText = 'invalid value';
+		// change two character symbols for one lower letter
 		Object.keys(twoSimbols).forEach((symbol) => {
 			numeral = numeral.replace(symbol, twoSimbols[symbol]);
 		});
-		console.log(numeral);
-		const symbolCounter = romanSimbols.reduce((symbolCounter, symbol) => {
-			symbolCounter[symbol] = 0;
-			return symbolCounter;
-		}, {});
-		console.log(symbolCounter);
-		const nextLetters = romanSimbols;
-		numeral.split('').map((letter) => {
+		const nextValid = maxRepeat;
+		const remainingSymbols = romanSymbols;
+		numeral.split('').forEach((letter) => {
+			// Invalidate bigger symbols
+			romanSymbols.slice(0,romanSymbols.indexOf(letter)).forEach(symbol => {
+				console.log(symbol);
+				nextValid[symbol] = 0;
+			});
+			// Reduce in one ramining uses of this letter
+			nextValid[letter]--;
+			if (nextValid[letter] === 0) {
+				throw new Error(errorText);
+			}
 			console.log(letter);
 		});
 		return true;
