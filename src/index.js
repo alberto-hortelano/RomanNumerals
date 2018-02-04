@@ -1,12 +1,15 @@
 'use strict';
 
-function RomanNumerals(){
+function RomanNumerals(numeral){
 }
-const romanNumerals = () => {
-	return new RomanNumerals();
+const romanNumeral = (numeral) => {
+	if (numeral === null || numeral === undefined || numeral === '' ) {
+		throw new Error('value required');
+	}
+	return new RomanNumerals(numeral);
 }
 
 module.exports = {
 	RomanNumerals,
-	romanNumerals,
+	romanNumeral,
 };
