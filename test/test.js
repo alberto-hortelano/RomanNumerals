@@ -9,7 +9,8 @@ switch (process.env.NODE_ENV) {
 		folder = 'src';
 }
 const {RomanNumerals, romanNumeral} = require(`../${folder}/index`);
-
+const invalidValues = [null, '', 0, 1, 3, 4, 5, 'I', 'III', 'IIII', 'IV', 'V', 1968, '1473', 2999, 3000, 10000, 'CDXXIX', 'CD1X',
+ 'error', 'MCDLXXXII', 'MCMLXXX', 'MMMMCMXCIX', 'MMMMDMXCIX'];
 describe('RomanNumerals',() => {
 	it('returns an object if called as function or as class', (done) => {
 		const asFunction = romanNumeral(1);
@@ -31,8 +32,7 @@ describe('RomanNumerals',() => {
 		done();
 	});
 	it.only('throws "invalid value" if the argument is not integer or valid roman number', (done) => {
-		romanNumeral('MCMXCXLMV');
-		// expect(() => romanNumeral('MCXMV')).to.throw('invalid value');
+		expect(() => romanNumeral('MMMMDMXCIX')).to.throw('invalid value');
 		// expect(() => romanNumeral({})).to.throw('invalid value');
 		// expect(() => romanNumeral('string')).to.throw('invalid value');
 		done();

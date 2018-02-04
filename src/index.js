@@ -27,7 +27,6 @@ const twoSimbols = {
 
 class RomanNumerals {
 	constructor (numeral) {
-		console.log('constructor');
 		// Sanitize input
 		this.sanitize (numeral);
 	}
@@ -47,17 +46,17 @@ class RomanNumerals {
 			!Number.isInteger(numeral) &&
 			(
 				(typeof numeral === 'string' || numeral instanceof String) &&
-				this.isValidRoman(numeral)
+				!this.isValidRoman(numeral)
 			)
 		) {
-
+			throw new Error('invalid value');
 		} else {
 			this.input = numeral;
 		}
 
 	}
 	isValidRoman (numeral) {
-		const errorText = 'invalid value';
+		let isValid = true;
 		// change two character symbols for one lower letter
 		Object.keys(twoSimbols).forEach((symbol) => {
 			numeral = numeral.replace(symbol, twoSimbols[symbol]);
@@ -67,17 +66,15 @@ class RomanNumerals {
 		numeral.split('').forEach((letter) => {
 			// Invalidate bigger symbols
 			romanSymbols.slice(0,romanSymbols.indexOf(letter)).forEach(symbol => {
-				console.log(symbol);
 				nextValid[symbol] = 0;
 			});
 			// Reduce in one ramining uses of this letter
 			nextValid[letter]--;
 			if (nextValid[letter] === 0) {
-				throw new Error(errorText);
+				isValid = false;
 			}
-			console.log(letter);
 		});
-		return true;
+		return isValid;
 	}
 }
 const romanNumeral = (numeral) => {
