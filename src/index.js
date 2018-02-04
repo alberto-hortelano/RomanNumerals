@@ -43,6 +43,10 @@ class RomanNumerals {
 	}
 	isValidRoman (numeral) {
 		console.log('isValidRoman',numeral);
+		Object.keys(twoSimbols).forEach((symbol) => {
+			numeral = numeral.replace(symbol, twoSimbols[symbol]);
+		});
+		console.log(numeral);
 		const symbolCounter = romanSimbols.reduce((symbolCounter, symbol) => {
 			symbolCounter[symbol] = 0;
 			return symbolCounter;

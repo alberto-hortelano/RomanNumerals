@@ -31,7 +31,7 @@ describe('RomanNumerals',() => {
 		done();
 	});
 	it.only('throws "invalid value" if the argument is not integer or valid roman number', (done) => {
-		romanNumeral('MCXMV');
+		romanNumeral('MCMXCXLMV');
 		// expect(() => romanNumeral('MCXMV')).to.throw('invalid value');
 		// expect(() => romanNumeral({})).to.throw('invalid value');
 		// expect(() => romanNumeral('string')).to.throw('invalid value');
