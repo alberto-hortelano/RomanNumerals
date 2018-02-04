@@ -9,8 +9,8 @@ switch (process.env.NODE_ENV) {
 		folder = 'src';
 }
 const {RomanNumerals, romanNumeral} = require(`../${folder}/index`);
-const invalidValues = [null, '', 0, 1, 3, 4, 5, 'I', 'III', 'IIII', 'IV', 'V', 1968, '1473', 2999, 3000, 10000, 'CDXXIX', 'CD1X',
- 'error', 'MCDLXXXII', 'MCMLXXX', 'MMMMCMXCIX', 'MMMMDMXCIX'];
+const invalidValues = [  1, 3, 4, 5, 'I', 'III', '', 'IV', 'V', 1968, '', 2999, 3000, 'CDXXIX', '',
+ 'error', 'MCDLXXXII', 'MCMLXXX', '', ''];
 describe('RomanNumerals',() => {
 	it('returns an object if called as function or as class', (done) => {
 		const asFunction = romanNumeral(1);
@@ -27,14 +27,17 @@ describe('RomanNumerals',() => {
 	});
 	it('throws "invalid range" if the argument is less than 1 or bigger than 3999', (done) => {
 		expect(() => romanNumeral(0)).to.throw('invalid range');
-		expect(() => romanNumeral(-1)).to.throw('invalid range');
+		expect(() => romanNumeral(10000)).to.throw('invalid range');
 		expect(() => romanNumeral(4000)).to.throw('invalid range');
 		done();
 	});
-	it.only('throws "invalid value" if the argument is not integer or valid roman number', (done) => {
+	it('throws "invalid value" if the argument is not integer or valid roman number', (done) => {
+		expect(() => romanNumeral('IIII')).to.throw('invalid value');
+		expect(() => romanNumeral('CD1X')).to.throw('invalid value');
+		expect(() => romanNumeral('MMMMCMXCIX')).to.throw('invalid value');
 		expect(() => romanNumeral('MMMMDMXCIX')).to.throw('invalid value');
-		// expect(() => romanNumeral({})).to.throw('invalid value');
-		// expect(() => romanNumeral('string')).to.throw('invalid value');
+		expect(() => romanNumeral('1473')).to.throw('invalid value');
+		expect(() => romanNumeral('error')).to.throw('invalid value');
 		done();
 	});
 });

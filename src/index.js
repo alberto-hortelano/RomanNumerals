@@ -1,5 +1,5 @@
 'use strict';
-
+const originalSymbols = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
 const romanSymbols = ['M', 'm', 'D', 'd', 'C', 'c', 'L', 'l', 'X', 'x', 'V', 'v', 'I'];
 const maxRepeat = {
 	M: 3,
@@ -57,11 +57,17 @@ class RomanNumerals {
 	}
 	isValidRoman (numeral) {
 		let isValid = true;
+		// Only valid symbols
+		numeral.split('').forEach((letter) => {
+			if (originalSymbols.indexOf(letter) < 0) {
+				isValid = false;
+			}
+		});
 		// change two character symbols for one lower letter
 		Object.keys(twoSimbols).forEach((symbol) => {
 			numeral = numeral.replace(symbol, twoSimbols[symbol]);
 		});
-		const nextValid = maxRepeat;
+		const nextValid = JSON.parse(JSON.stringify(maxRepeat));
 		const remainingSymbols = romanSymbols;
 		numeral.split('').forEach((letter) => {
 			// Invalidate bigger symbols
