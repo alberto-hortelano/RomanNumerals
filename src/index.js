@@ -39,15 +39,20 @@ const twoSimbols = {
 	'IX': 'x',
 	'IV': 'v'
 };
-
+/**
+ * RomanNumerals
+ * library for converting between arabic and roman numbers
+ */
 class RomanNumerals {
 	constructor (numeral) {
 		// Sanitize input
 		this.sanitize (numeral);
 	}
-
+	/**
+	 * sanitize
+	 * Makes sure that the input is correct
+	 */
 	sanitize (numeral) {
-	console.log('sanitize',numeral);
 		// Empty input
 		if (numeral === null || numeral === undefined || numeral === '' ) {
 			throw new Error('value required');
@@ -68,10 +73,13 @@ class RomanNumerals {
 			throw new Error('invalid value');
 		} else {
 			this.input = numeral;
-			console.log('is valid',numeral);
 		}
-
 	}
+	/**
+	 * toOneChar
+	 * Converts two letters convinations in one letter
+	 * it uses the second letter as lower
+	 */
 	toOneChar (numeral) {
 		// change two character symbols for one lower letter
 		Object.keys(twoSimbols).forEach((symbol) => {
@@ -79,13 +87,21 @@ class RomanNumerals {
 		});
 		return numeral;
 	}
+	/**
+	 * toTwoChars
+	 * Converts back to two letter symbols
+	 */
 	toTwoChars (numeral) {
-		// change two character symbols for one lower letter
+		// change one lower letter symbols for two characters
 		Object.keys(twoSimbols).forEach((symbol) => {
 			numeral = numeral.replace(twoSimbols[symbol], symbol);
 		});
 		return numeral;
 	}
+	/**
+	 * isValidRoman
+	 * Checks if the input is a valid roman number
+	 */
 	isValidRoman (numeral) {
 		let isValid = true;
 		// Only valid symbols
@@ -94,54 +110,68 @@ class RomanNumerals {
 				isValid = false;
 			}
 		});
+		// change two character symbols for one lower letter
 		numeral = this.toOneChar(numeral);
+		// clone maxRepeat
 		const nextValid = JSON.parse(JSON.stringify(maxRepeat));
-		const remainingSymbols = romanSymbols;
+		// Check that the input is legal
 		numeral.split('').forEach((letter) => {
-			// Invalidate bigger symbols
-			// console.log(letter,nextValid);
+			// Invalidate bigger symbols than current letter
 			romanSymbols.slice(0,romanSymbols.indexOf(letter)).forEach(symbol => {
 				nextValid[symbol] = 0;
 			});
-			// Reduce in one ramining uses of this letter
+			// Reduce in one ramining uses of current letter
 			nextValid[letter]--;
+			// current letter is not legal
 			if (nextValid[letter] < 0) {
 				isValid = false;
 			}
-			// console.log(letter,isValid);
 		});
 		return isValid;
 	}
+	/**
+	 * toInt
+	 * Transforms the input into an integer
+	 */
 	toInt () {
+		// return input if it's already an integer
 		if (Number.isInteger(this.input)) {
 			return this.input;
 		}
-		console.log('toInt',this.input);
-		const oneChar = this.toOneChar(this.input);
 		let result = 0;
+		// change two character symbols for one lower letter
+		const oneChar = this.toOneChar(this.input);
+		// Add to result the value of each symbol
 		oneChar.split('').forEach(symbol => {
-			console.log(symbol,result);
 			result += symbolValues[symbol];
 		});
 		return result;
 	}
+	/**
+	 * toString
+	 * Transform the input into a roman number
+	 */
 	toString () {
+		// return input if it's already a roman number
 		if (typeof this.input === 'string' || this.input instanceof String) {
 			return this.input;
 		}
 		let result = '';
+		// remaining value to convert
 		let remaining = this.input;
 		romanSymbols.forEach(symbol => {
+			// Times to repeat current letter
 			const amount = Math.floor(remaining / symbolValues[symbol]);
+			// Add letters to result
 			result += Array(amount+1).join(symbol);
-			console.log(symbol, amount,remaining);
+			// remove added value from remaining
 			remaining -= symbolValues[symbol] * amount;
 		});
-		console.log('toTwoChars',result,this.toTwoChars(result));
 		return this.toTwoChars(result);
 	}
 }
 const romanNumeral = (numeral) => {
+	// always return an instance
 	return new RomanNumerals(numeral);
 }
 
