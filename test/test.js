@@ -24,4 +24,10 @@ describe('RomanNumerals',() => {
 		expect(() => romanNumeral('')).to.throw('value required');
 		done();
 	});
+	it('throws "invalid range" if the argument is less than 1 or bigger than 3999', (done) => {
+		expect(() => romanNumeral(0)).to.throw('invalid range');
+		expect(() => romanNumeral(-1)).to.throw('invalid range');
+		expect(() => romanNumeral(4000)).to.throw('invalid range');
+		done();
+	});
 });
