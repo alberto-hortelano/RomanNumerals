@@ -40,4 +40,9 @@ describe('RomanNumerals',() => {
 		expect(() => romanNumeral('error')).to.throw('invalid value');
 		done();
 	});
+	it.only('converts roman to int', (done) => {
+		const num = romanNumeral('MCMXCV');
+		expect(num.toInt()).to.equal(1995);
+		done();
+	});
 });
